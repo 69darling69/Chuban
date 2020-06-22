@@ -1,0 +1,130 @@
+\documentclass[11pt, leqno]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode} 
+\usepackage{cancel}
+
+%---enable russian----
+
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+
+% PROBABILITY SYMBOLS
+\newcommand*\PROB\Pr 
+\DeclareMathOperator*{\EXPECT}{\mathbb{E}}
+
+
+% Sets, Rngs, ets 
+\newcommand{\N}{{{\mathbb N}}}
+\newcommand{\Z}{{{\mathbb Z}}}
+\newcommand{\R}{{{\mathbb R}}}
+\newcommand{\Zp}{\ints_p} % Integers modulo p
+\newcommand{\Zq}{\ints_q} % Integers modulo q
+\newcommand{\Zn}{\ints_N} % Integers modulo N
+
+% Landau 
+\newcommand{\bigO}{\mathcal{O}}
+\newcommand*{\OLandau}{\bigO}
+\newcommand*{\WLandau}{\Omega}
+\newcommand*{\xOLandau}{\widetilde{\OLandau}}
+\newcommand*{\xWLandau}{\widetilde{\WLandau}}
+\newcommand*{\TLandau}{\Theta}
+\newcommand*{\xTLandau}{\widetilde{\TLandau}}
+\newcommand{\smallo}{o} %technically, an omicron
+\newcommand{\softO}{\widetilde{\bigO}}
+\newcommand{\wLandau}{\omega}
+\newcommand{\negl}{\mathrm{negl}} 
+
+% Misc
+\newcommand{\eps}{\varepsilon}
+\newcommand{\inprod}[1]{\left\langle #1 \right\rangle}
+
+\newcommand{\handout}[5]{
+  \noindent
+  \begin{center}
+  \framebox{
+    \vbox{
+      \hbox to 5.78in { {\bf Научно-исследовательская практика} \hfill #2 }
+      \vspace{4mm}
+      \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+      \vspace{2mm}
+      \hbox to 5.78in { {\em #3 \hfill #4} }
+    }
+  }
+  \end{center}
+  \vspace*{4mm}
+}
+
+\newcommand{\lecture}[4]{\handout{#1}{#2}{#3}{Scribe: #4}{Название темы #1}}
+
+\newtheorem{theorem}{Теорема}
+\newtheorem{lemma}{Лемма}
+\newtheorem{definition}{Определение}
+\newtheorem{corollary}{Следствие}
+\newtheorem{fact}{Факт}
+
+% 1-inch margins
+\topmargin 0pt
+\advance \topmargin by -\headheight
+\advance \topmargin by -\headsep
+\textheight 8.9in
+\oddsidemargin 0pt
+\evensidemargin \oddsidemargin
+\marginparwidth 0.5in
+\textwidth 6.5in
+
+\parindent 0in
+\parskip 1.5ex
+
+
+\begin{document}
+
+\lecture{"Обобщение Эйлера теоремы Ферма"}{Лето 2020}{}{Чубань Артем}
+
+\qquad Доказательство может быть проиллюстрировано с некоторыми конкретными числами. Пусть $n = 9$, для примера. Положительные простые числа, взаимно простые с 9, тогда
+$$1, 2, 4, 5, 7, 8.$$
+Они играют роль целых $a_1, a_2, ..., a_{\phi(n)}$ в доказательстве Теоремы 7-5. Если $a = -4$, то тогда целые $aa_i$ будут
+$$-4, -8, -16, -20, -28, -32,$$
+где, по модулю 9,
+$$-4 \equiv 5, -8 \equiv 1, -16 \equiv 2, -20 \equiv 7, -28 \equiv 8, -32 \equiv 4.$$
+Когда мы умножим все вышеперечисленные сравнения вместе, получим
+$$(-4)(-8)(-16)(-20)(-28)(-32) \equiv 5 \cdot 1 \cdot 2 \cdot 7 \cdot 8 \cdot 4 (mod\ 9),$$
+что становится
+$$(1 \cdot 2 \cdot 4 \cdot 5 \cdot 7 \cdot 8)(-4)^6 \equiv (1 \cdot 2 \cdot 4 \cdot 5 \cdot 7 \cdot 8)(mod\ 9)$$
+Будучи взаимнопростыми с 9, шесть целых чисел 1, 2, 4, 5, 7, 8 могут быть успешно упразднены, чтобы получить
+$$(-4)^6 \equiv 1 (mod\ 9)$$
+Достоверность этого последнего сравнения подтверждается следующим вычислением
+$$(-4)^6 \equiv 4^6 \equiv (64)^2 \equiv 1^2 \equiv 1 (mod\ 9)$$
+
+\qquad Заметим, что теорема 7-5 действительно обобщает теорему Ферма, которую мы доказали ранее. Ведь если p - простое число, то тогда $\phi (p) = p - 1$; следовательно, когда НОД$(a, p) = 1$, мы получаем
+$$a^{p - 1} \equiv a^{\phi(p)} \equiv 1 (mod\ p)$$
+и так:
+
+\corollary
+Если p - просто число и $p\ \cancel{|}\ a$, то тогда $a^{p - 1} \equiv 1(mod\ p)$.
+
+\subparagraph{Пример 7-2}
+Теорема Эйлера полезна для уменьшения больших степеней по модулю n. Приведем простой пример, найдем последние две цифры в десятичном представлении числа $3^{256}$; что эквивалетно нахождению наименьшего неотрицательного целого числа, которое сравнимо с $3^{256}$ по модулю $100$. Так как НОД$(3, 100) = 1$ и
+$$\phi(100) = \phi(2^5 \cdot 5^2) = 100\left(1 - \frac{1}{2}\right) \left( 1 - \frac{1}{5} \right) = 40,$$
+по теореме Эйлера получаем
+$$3^{40} \equiv 1 (mod\ 100).$$
+По алгоритму деления, $256 = 6 \cdot 40 + 16$; откуда
+$$3^{256} \equiv 3^{6 \cdot 40 + 16} \equiv \left( 3^{40} \right)^6 3^{16} \equiv 3^{16}(mod\ 100)$$
+и наша задача свелась к одной оценке $3^{16}$, по модулю $100$. Вычисления следующие, с опущенными размышлениями:
+$$3^{16} \equiv (81)^4 \equiv (-19)^4 \equiv (361)^2 \equiv 61^2 \equiv 21 (mod\ 100)$$
+
+Существует и другой путь к теореме Эйлера, который требует использование теоремы Ферма.
+
+\subparagraph{Второе доказательство теоремы Эйлера}
+Для начала, докажем методом индукции, что если $p \cancel{|} a$ (p и a - простые), то тогда
+\begin{equation}
+a^{\phi \left(p^k \right)} \equiv 1 (mod\ p^k), \qquad k>0.
+\end{equation}
+При $k = 1$, данное выражение сводится к утверждению теоремы Ферма. Предположим, что (1) верно при некотором k, докажем, что оно верно и при $k + 1$.\\
+Поскольку предпологается, что (1) верно, то мы можем записать
+$$a^{}$$
+
+
+
+
+\end{document}
